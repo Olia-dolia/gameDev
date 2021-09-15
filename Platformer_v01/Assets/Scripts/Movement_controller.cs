@@ -14,9 +14,11 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] Transform _groundCheck;
     [SerializeField] LayerMask _whatIsGround;
     [SerializeField] Collider2D _headCollider;
+    [SerializeField] Transform _headChecker;
     private float _move;
     private bool _jump;
     private bool _isGrounded;
+    bool _canStand;
 
     private void Awake()
     {
@@ -45,11 +47,11 @@ public class Movement_controller : MonoBehaviour
         if (Input.GetButtonUp("Jump"))
         {
             _jump = true;
-        }
+        };
         if (Input.GetKey(KeyCode.C)) {
             _headCollider.enabled = false;
         }
-        else
+        else if (!Input.GetKey(KeyCode.C) && _canStand)
         {
             _headCollider.enabled = true;
         }
@@ -68,15 +70,16 @@ public class Movement_controller : MonoBehaviour
             _playerRB.AddForce(Vector2.up * _jumpForce);
             _jump = false;
         }
-        
-        
+                
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _radius, _whatIsGround);
-        
+        _canStand = !Physics2D.OverlapCircle(_headChecker.position, _radius, _whatIsGround);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(_groundCheck.position, _radius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_headChecker.position, _radius);
     }
     void Flip()
     {
