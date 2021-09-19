@@ -791,8 +791,9 @@ GameObject:
   - component: {fileID: 1305892858}
   - component: {fileID: 1305892859}
   - component: {fileID: 1305892860}
+  - component: {fileID: 1305892861}
   m_Layer: 7
-  m_Name: Wizard
+  m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -838,7 +839,7 @@ SpriteRenderer:
   m_SortingLayerID: 1880584053
   m_SortingLayer: -1
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1442803351506696510, guid: dde2588f5e0bc7b4ab407c1ae99bd5c1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84ce2f114ad12bd4ebafc77060220324, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -857,10 +858,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1305892854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5692, y: -3.4698, z: 0}
-  m_LocalScale: {x: 0.42015645, y: 0.41522318, z: 0.25146547}
+  m_LocalPosition: {x: -5.68, y: -2.92, z: 0}
+  m_LocalScale: {x: 1.000995, y: 1.1715711, z: 0.24895082}
   m_Children:
   - {fileID: 1872832148}
+  - {fileID: 1971764863}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -898,8 +900,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06863047, y: -1.3354473}
-  m_Size: {x: 2.0249715, y: 2.619711}
+  m_Offset: {x: 0.019028569, y: -0.8807709}
+  m_Size: {x: 0.6691903, y: 0.76700044}
   m_Direction: 0
 --- !u!114 &1305892859
 MonoBehaviour:
@@ -916,13 +918,18 @@ MonoBehaviour:
   _speed: 5
   _spriteFlip: 0
   _jumpForce: 500
-  _radius: 0.27
+  _radius: 0.17
   _airMove: 1
   _groundCheck: {fileID: 1872832148}
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 64
   _headCollider: {fileID: 1305892860}
+  _headChecker: {fileID: 1971764863}
+  _animator: {fileID: 1305892861}
+  _runAnimatorKey: Speed
+  _jumpAnimatorKey: Jump
+  _crouchAnimatorKey: Crouch
 --- !u!58 &1305892860
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -936,9 +943,28 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.200306, y: 0.60662484}
+  m_Offset: {x: 0.033864323, y: -0.24}
   serializedVersion: 2
-  m_Radius: 0.9978585
+  m_Radius: 0.41
+--- !u!95 &1305892861
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305892854}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a884c36ecb5b2234cbc7ab8d547279dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1420110272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1549,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872832147}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.47, y: -4.15, z: 0}
+  m_LocalPosition: {x: 0.07, y: -1.19, z: 0}
   m_LocalScale: {x: 0.45472902, y: 0.34670362, z: 0.45472902}
   m_Children: []
   m_Father: {fileID: 1305892856}
@@ -1767,6 +1793,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1971764862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1971764863}
+  m_Layer: 7
+  m_Name: Head Cheker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1971764863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971764862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.08, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1305892856}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2002019651
 GameObject:
   m_ObjectHideFlags: 0

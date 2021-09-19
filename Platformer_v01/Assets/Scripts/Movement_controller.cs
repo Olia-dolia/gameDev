@@ -15,6 +15,15 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] LayerMask _whatIsGround;
     [SerializeField] Collider2D _headCollider;
     [SerializeField] Transform _headChecker;
+
+
+    [Header(("Animator"))]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _runAnimatorKey;
+    [SerializeField] private string _jumpAnimatorKey;
+    [SerializeField] private string _crouchAnimatorKey;
+
+
     private float _move;
     private bool _jump;
     private bool _isGrounded;
@@ -34,6 +43,8 @@ public class Movement_controller : MonoBehaviour
     void Update()
     {
         _move = Input.GetAxisRaw("Horizontal");
+
+        _animator.SetFloat(_runAnimatorKey, Mathf.Abs(_move));
 
         if (_move > 0 && _spriteFlip)
         {
@@ -60,11 +71,12 @@ public class Movement_controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+       _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y); 
         if(_move != 0 && (_isGrounded || _airMove))
         {
             _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y); ;
         }
-        _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y);
+        
         if (_jump && _isGrounded)
         {
             _playerRB.AddForce(Vector2.up * _jumpForce);
@@ -73,6 +85,9 @@ public class Movement_controller : MonoBehaviour
                 
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _radius, _whatIsGround);
         _canStand = !Physics2D.OverlapCircle(_headChecker.position, _radius, _whatIsGround);
+
+        _animator.SetBool(_jumpAnimatorKey, !_isGrounded);
+        _animator.SetBool(_crouchAnimatorKey, !_headCollider.enabled);
     }
 
     private void OnDrawGizmos()
