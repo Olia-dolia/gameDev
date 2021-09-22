@@ -15,7 +15,8 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] LayerMask _whatIsGround;
     [SerializeField] Collider2D _headCollider;
     [SerializeField] Transform _headChecker;
-
+    [SerializeField] private float _shieldTime;
+    //[SerializeField] private float _currentTime;
 
     [Header(("Animator"))]
     [SerializeField] private Animator _animator;
@@ -28,6 +29,9 @@ public class Movement_controller : MonoBehaviour
     private bool _jump;
     private bool _isGrounded;
     bool _canStand;
+
+    public bool Fireball { private get; set; }
+    public bool Shield { private get; set; }
 
     private void Awake()
     {
@@ -66,12 +70,26 @@ public class Movement_controller : MonoBehaviour
         {
             _headCollider.enabled = true;
         }
-        
     }
 
     private void FixedUpdate()
     {
-       _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y); 
+       _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y);
+
+        if (Fireball)
+        {
+            //We can use fireball for Attack
+        }
+        if (Shield)
+        {   
+            _shieldTime -= Time.deltaTime;
+                if (_shieldTime <= 0)
+                {
+                    Debug.Log("Your time is up!");
+                    Shield = false;
+                }
+        }
+
         if(_move != 0 && (_isGrounded || _airMove))
         {
             _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y); ;
@@ -100,5 +118,10 @@ public class Movement_controller : MonoBehaviour
     {
         _spriteFlip = !_spriteFlip;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void AddHP(int hpPoints)
+    {
+        Debug.Log("hp increase" + hpPoints);
     }
 }
