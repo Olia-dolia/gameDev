@@ -12,8 +12,10 @@ public class Fireball : MonoBehaviour
         if (player != null)
         {
             player.Fireball = true;
-            Debug.Log("Now you can use Fireball!");
+            Debug.Log("Now you have Fireball!");
             Destroy(gameObject);
         }
+    
+
     }
 }

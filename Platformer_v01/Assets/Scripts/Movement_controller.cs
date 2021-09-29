@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,10 +14,10 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] private bool _airMove;
     [SerializeField] Transform _groundCheck;
     [SerializeField] LayerMask _whatIsGround;
+    [SerializeField] LayerMask _whatIsCell;
     [SerializeField] Collider2D _headCollider;
     [SerializeField] Transform _headChecker;
-    [SerializeField] private float _shieldTime;
-    //[SerializeField] private float _currentTime;
+    
 
     [Header(("Animator"))]
     [SerializeField] private Animator _animator;
@@ -24,15 +25,30 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] private string _jumpAnimatorKey;
     [SerializeField] private string _crouchAnimatorKey;
 
+    [Header("UI")]
+    [SerializeField] private TMP_Text _coinsAmountText;
 
-    private float _move;
+
+    private float _Hmove;
+    private float _Vmove;
     private bool _jump;
     private bool _isGrounded;
     bool _canStand;
+    private int _coinsAmount;
 
-    public bool Fireball { private get; set; }
-    public bool Shield { private get; set; }
+    public bool CanClimb { private get; set; }
 
+    public bool Fireball { get; set; }
+    public bool ActivateAltar { get; set; }
+    public int CoinsAmount
+    {
+        get => _coinsAmount;
+        set
+        {
+            _coinsAmount = value;
+           // _coinsAmountText.text = value.ToString();
+        }
+    }
     private void Awake()
     {
         _playerRB = GetComponent<Rigidbody2D>();
@@ -40,21 +56,21 @@ public class Movement_controller : MonoBehaviour
 
     void Start()
     {
-        
+        CoinsAmount = 0;
     }
 
     
     void Update()
     {
-        _move = Input.GetAxisRaw("Horizontal");
+        _Hmove = Input.GetAxisRaw("Horizontal");
+        _Vmove = Input.GetAxisRaw("Vertical");
+        _animator.SetFloat(_runAnimatorKey, Mathf.Abs(_Hmove));
 
-        _animator.SetFloat(_runAnimatorKey, Mathf.Abs(_move));
-
-        if (_move > 0 && _spriteFlip)
+        if (_Hmove > 0 && _spriteFlip)
         {
             Flip();
         }
-        else if (_move < 0 && !_spriteFlip)
+        else if (_Hmove < 0 && !_spriteFlip)
         {
             Flip();
         }
@@ -74,25 +90,29 @@ public class Movement_controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-       _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y);
+       _playerRB.velocity = new Vector2(_speed * _Hmove, _playerRB.velocity.y);
 
-        if (Fireball)
+        if (CanClimb)
         {
-            //We can use fireball for Attack
+            _playerRB.velocity = new Vector2(_playerRB.velocity.x, _Vmove * _speed);
+            _playerRB.gravityScale = 0;
         }
-        if (Shield)
-        {   
-            _shieldTime -= Time.deltaTime;
-                if (_shieldTime <= 0)
-                {
-                    Debug.Log("Your time is up!");
-                    Shield = false;
-                }
+        else
+        {
+            _playerRB.gravityScale = 3;
         }
 
-        if(_move != 0 && (_isGrounded || _airMove))
+
+        if (ActivateAltar)
         {
-            _playerRB.velocity = new Vector2(_speed * _move, _playerRB.velocity.y); ;
+            //SetActive(true) on ukazatel`
+
+        }
+       
+
+        if(_Hmove != 0 && (_isGrounded || _airMove))
+        {
+            _playerRB.velocity = new Vector2(_speed * _Hmove, _playerRB.velocity.y); ;
         }
         
         if (_jump && _isGrounded)
@@ -102,7 +122,7 @@ public class Movement_controller : MonoBehaviour
         }
                 
         _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _radius, _whatIsGround);
-        _canStand = !Physics2D.OverlapCircle(_headChecker.position, _radius, _whatIsGround);
+        _canStand = !Physics2D.OverlapCircle(_headChecker.position, _radius, _whatIsCell);
 
         _animator.SetBool(_jumpAnimatorKey, !_isGrounded);
         _animator.SetBool(_crouchAnimatorKey, !_headCollider.enabled);

@@ -13,8 +13,8 @@ TagManager:
   - UI
   - Ground
   - Player
-  - 
-  - 
+  - Stairs
+  - Platform
   - 
   - 
   - 
@@ -43,6 +43,12 @@ TagManager:
     locked: 0
   - name: Item
     uniqueID: 1436661465
+    locked: 0
+  - name: Stairs
+    uniqueID: 2666525709
+    locked: 0
+  - name: Platform
+    uniqueID: 3165480821
     locked: 0
   - name: Player
     uniqueID: 1880584053

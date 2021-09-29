@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthPotion : MonoBehaviour
 {
     [SerializeField] private int _hpPoints;
-    [SerializeField] private bool _hasFire;
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
