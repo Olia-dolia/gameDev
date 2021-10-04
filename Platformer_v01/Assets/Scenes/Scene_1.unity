@@ -2028,7 +2028,7 @@ GameObject:
   - component: {fileID: 1805676336}
   - component: {fileID: 1805676338}
   - component: {fileID: 1805676339}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TX Village Props Road Sign A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2077,7 +2077,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300042, guid: 7810966f0f690954c87305933cabf2b0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.84375, y: 1.28125}
@@ -2094,8 +2094,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1805676335}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.93, y: -4.54, z: 0}
-  m_LocalScale: {x: 1.5936438, y: 1.287983, z: 1}
+  m_LocalPosition: {x: 8.61, y: -4.58, z: 0}
+  m_LocalScale: {x: -1.3163339, y: 1.1568477, z: 0.86049587}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -2113,7 +2113,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pointer: {fileID: 1805676335}
-  _levelToLaod: 0
+  _spriteFlip: 0
+  _levelToLoad: 1
 --- !u!70 &1805676339
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

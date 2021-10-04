@@ -100,15 +100,7 @@ public class Movement_controller : MonoBehaviour
         else
         {
             _playerRB.gravityScale = 3;
-        }
-
-
-        if (ActivateAltar)
-        {
-            //SetActive(true) on ukazatel`
-
-        }
-       
+        }     
 
         if(_Hmove != 0 && (_isGrounded || _airMove))
         {

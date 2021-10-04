@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NextLvl : MonoBehaviour
 {
     [SerializeField] private GameObject _pointer;
-    [SerializeField] private int _levelToLaod;
+    [SerializeField] private bool _spriteFlip;
+    [SerializeField] private int _levelToLoad;
     void Start()
     {
         
@@ -13,13 +15,19 @@ public class NextLvl : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Movement_controller player = other.GetComponent<Movement_controller>();
-        if (player != null) 
-        { 
-            if(player.ActivateAltar == true)
-            {
-                _pointer.SetActive(true);
-                Debug.Log("Go to nextlvl");
-           }
-        }
+       if(player != null && player.ActivateAltar == true)
+       {              
+            Flip();
+            Debug.Log("Go to nextlvl");
+            Invoke(nameof(_LoadScene), 1f);
+       }
+    }
+    void Flip()
+    {        
+        transform.Rotate(0f, 180f, 0f);
+    }
+    private void _LoadScene()
+    {
+        SceneManager.LoadScene(_levelToLoad);
     }
 }

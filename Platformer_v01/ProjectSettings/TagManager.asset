@@ -15,7 +15,7 @@ TagManager:
   - Player
   - Stairs
   - Platform
-  - 
+  - PointerLVL
   - 
   - 
   - 
@@ -55,4 +55,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PointerLVL
+    uniqueID: 2110567359
     locked: 0
