@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class NextLvl : MonoBehaviour
 {
     [SerializeField] private GameObject _pointer;
+    [SerializeField] Collider2D _pointerCollider;
     [SerializeField] private bool _spriteFlip;
     [SerializeField] private int _levelToLoad;
     void Start()
@@ -23,7 +24,8 @@ public class NextLvl : MonoBehaviour
        }
     }
     void Flip()
-    {        
+    {
+        _pointerCollider.enabled = false;
         transform.Rotate(0f, 180f, 0f);
     }
     private void _LoadScene()

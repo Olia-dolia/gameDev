@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement_controller : MonoBehaviour
@@ -17,6 +18,7 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] LayerMask _whatIsCell;
     [SerializeField] Collider2D _headCollider;
     [SerializeField] Transform _headChecker;
+    [SerializeField] private int _maxHp;
     
 
     [Header(("Animator"))]
@@ -35,6 +37,7 @@ public class Movement_controller : MonoBehaviour
     private bool _isGrounded;
     bool _canStand;
     private int _coinsAmount;
+    private int _currentHp;
 
     public bool CanClimb { private get; set; }
 
@@ -46,7 +49,16 @@ public class Movement_controller : MonoBehaviour
         set
         {
             _coinsAmount = value;
-           // _coinsAmountText.text = value.ToString();
+            _coinsAmountText.text = value.ToString();
+        }
+    }
+    private int CurrentHp
+    {
+        get => _currentHp;
+        set
+        {
+            _currentHp = value;
+            // _hpBar.value = _currentHp;
         }
     }
     private void Awake()
@@ -57,6 +69,7 @@ public class Movement_controller : MonoBehaviour
     void Start()
     {
         CoinsAmount = 0;
+        CurrentHp = _maxHp;
     }
 
     
@@ -135,5 +148,20 @@ public class Movement_controller : MonoBehaviour
     public void AddHP(int hpPoints)
     {
         Debug.Log("hp increase" + hpPoints);
+    }
+    public void TakeDamage(int damage)
+    {
+        CurrentHp -= damage;
+        Debug.Log(CurrentHp);
+        if(CurrentHp<= 0)
+        {
+            Debug.Log("Died!");
+            gameObject.SetActive(false);
+            Invoke(nameof(ReloadScene), 1f);
+        }
+    }
+    private void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
