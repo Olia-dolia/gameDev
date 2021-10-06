@@ -13,7 +13,7 @@ public class ActivateAltar : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-            Movement_controller player = other.GetComponent<Movement_controller>();
+        Movement_controller player = other.GetComponent<Movement_controller>();
         
         if (player != null && player.Fireball == true)
         {

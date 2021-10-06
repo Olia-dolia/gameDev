@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Movement_controller : MonoBehaviour
@@ -29,6 +30,7 @@ public class Movement_controller : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private TMP_Text _coinsAmountText;
+    [SerializeField] private Slider _hpBar;
 
 
     private float _Hmove;
@@ -58,7 +60,7 @@ public class Movement_controller : MonoBehaviour
         set
         {
             _currentHp = value;
-            // _hpBar.value = _currentHp;
+            _hpBar.value = value;
         }
     }
     private void Awake()
@@ -69,6 +71,7 @@ public class Movement_controller : MonoBehaviour
     void Start()
     {
         CoinsAmount = 0;
+        _hpBar.maxValue = _maxHp;
         CurrentHp = _maxHp;
     }
 
