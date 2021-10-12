@@ -10,7 +10,7 @@ public class Thorns : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         Movement_controller player = other.GetComponent<Movement_controller>();
-        if (player!= null && Time.time - _lastDamageTime > 0.04f)
+        if (player!= null && Time.time - _lastDamageTime > 0.4f)
         {
             _lastDamageTime = Time.time;
             player.TakeDamage(_damage);

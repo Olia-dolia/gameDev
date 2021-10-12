@@ -150,7 +150,19 @@ public class Movement_controller : MonoBehaviour
 
     public void AddHP(int hpPoints)
     {
-        Debug.Log("hp increase" + hpPoints);
+        int missingHp = _maxHp - CurrentHp;
+        int pointToAdd = missingHp > hpPoints ? hpPoints : missingHp;
+        StartCoroutine(RestoreHp(pointToAdd));
+        //CurrentHp += hpPoints;
+    }
+    private IEnumerator RestoreHp(int pointToAdd)
+    {
+        while (pointToAdd != 0)
+        {
+            pointToAdd--;
+            CurrentHp++;
+            yield return new WaitForSeconds(0.2f);
+        }
     }
     public void TakeDamage(int damage)
     {
