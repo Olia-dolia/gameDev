@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ActivateAltar : MonoBehaviour
 {
-    [SerializeField] private GameObject _fire;
+    [SerializeField] private GameObject _fire2;
  
     private void Start()
     {
-        _fire.SetActive(false);
+        _fire2.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -18,7 +18,7 @@ public class ActivateAltar : MonoBehaviour
         if (player != null && player.Fireball == true)
         {
             player.ActivateAltar = true;
-            _fire.SetActive(true);
+            _fire2.SetActive(true);
             player.Fireball = false;
             Debug.Log("ACTIVATED!!!");
         }

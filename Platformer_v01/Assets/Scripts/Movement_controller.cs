@@ -20,7 +20,8 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] Collider2D _headCollider;
     [SerializeField] Transform _headChecker;
     [SerializeField] private int _maxHp;
-    
+    [SerializeField] private int _maxManna;
+
 
     [Header(("Animator"))]
     [SerializeField] private Animator _animator;
@@ -31,6 +32,7 @@ public class Movement_controller : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text _coinsAmountText;
     [SerializeField] private Slider _hpBar;
+    [SerializeField] private Slider _mannaBar;
 
 
     private float _Hmove;
@@ -40,6 +42,7 @@ public class Movement_controller : MonoBehaviour
     bool _canStand;
     private int _coinsAmount;
     private int _currentHp;
+    private int _currentManna;
 
     public bool CanClimb { private get; set; }
 
@@ -63,6 +66,15 @@ public class Movement_controller : MonoBehaviour
             _hpBar.value = value;
         }
     }
+    private int CurrentManna
+    {
+        get => _currentManna;
+        set
+        {
+            _currentManna = value;
+            _mannaBar.value = value;
+        }
+    }
     private void Awake()
     {
         _playerRB = GetComponent<Rigidbody2D>();
@@ -73,6 +85,8 @@ public class Movement_controller : MonoBehaviour
         CoinsAmount = 0;
         _hpBar.maxValue = _maxHp;
         CurrentHp = _maxHp;
+        _mannaBar.maxValue = _maxManna;
+        CurrentManna = 0;
     }
 
     
@@ -153,7 +167,17 @@ public class Movement_controller : MonoBehaviour
         int missingHp = _maxHp - CurrentHp;
         int pointToAdd = missingHp > hpPoints ? hpPoints : missingHp;
         StartCoroutine(RestoreHp(pointToAdd));
-        //CurrentHp += hpPoints;
+        
+    }
+    public void AddManna(int mannaPoints)
+    {
+        if (Fireball)
+        {
+            CurrentManna = _maxManna;
+            int missingManna = _maxManna - CurrentManna;
+            int mannaAdd = missingManna > mannaPoints ? mannaPoints : missingManna;
+            StartCoroutine(RestoreHp(mannaAdd));
+        }
     }
     private IEnumerator RestoreHp(int pointToAdd)
     {
@@ -161,6 +185,15 @@ public class Movement_controller : MonoBehaviour
         {
             pointToAdd--;
             CurrentHp++;
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+    private IEnumerator RestoreManna(int mannaAdd)
+    {
+        while (mannaAdd != 0)
+        {
+            mannaAdd--;
+            CurrentManna++;
             yield return new WaitForSeconds(0.2f);
         }
     }
