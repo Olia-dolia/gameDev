@@ -28,6 +28,7 @@ public class Movement_controller : MonoBehaviour
     [SerializeField] private string _runAnimatorKey;
     [SerializeField] private string _jumpAnimatorKey;
     [SerializeField] private string _crouchAnimatorKey;
+    [SerializeField] private string _hurtAnimatorKey;
 
     [Header("UI")]
     [SerializeField] private TMP_Text _coinsAmountText;
@@ -43,6 +44,7 @@ public class Movement_controller : MonoBehaviour
     private int _coinsAmount;
     private int _currentHp;
     private int _currentManna;
+    private float _lastPushTime;
 
     public bool CanClimb { private get; set; }
 
@@ -120,7 +122,14 @@ public class Movement_controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-       _playerRB.velocity = new Vector2(_speed * _Hmove, _playerRB.velocity.y);
+        _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _radius, _whatIsGround);
+        if (_animator.GetBool(_hurtAnimatorKey))
+        {
+            if (Time.time - _lastPushTime > 0.2f && _isGrounded)
+                _animator.SetBool(_hurtAnimatorKey, false);
+            return;
+        }
+        _playerRB.velocity = new Vector2(_speed * _Hmove, _playerRB.velocity.y);
 
         if (CanClimb)
         {
@@ -143,7 +152,7 @@ public class Movement_controller : MonoBehaviour
             _jump = false;
         }
                 
-        _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _radius, _whatIsGround);
+        
         _canStand = !Physics2D.OverlapCircle(_headChecker.position, _radius, _whatIsCell);
 
         _animator.SetBool(_jumpAnimatorKey, !_isGrounded);
@@ -197,8 +206,13 @@ public class Movement_controller : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, float pushPower = 0, float enemyPosX = 0)
     {
+        if (_animator.GetBool(_hurtAnimatorKey))
+        {
+            return;
+        }
+
         CurrentHp -= damage;
         Debug.Log(CurrentHp);
         if(CurrentHp<= 0)
@@ -206,6 +220,14 @@ public class Movement_controller : MonoBehaviour
             Debug.Log("Died!");
             gameObject.SetActive(false);
             Invoke(nameof(ReloadScene), 1f);
+        }
+
+        if(pushPower != 0)
+        {
+            _lastPushTime = Time.time;
+            int direction = transform.position.x > enemyPosX ? 1 : -1;
+            _playerRB.AddForce(new Vector2(direction * pushPower / 2, pushPower));
+            _animator.SetBool(_hurtAnimatorKey, true);
         }
     }
     private void ReloadScene()
