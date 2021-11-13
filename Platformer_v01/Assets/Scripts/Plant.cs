@@ -86,5 +86,9 @@ public class Plant : MonoBehaviour
     public void TakeDamage(int damage)
     {
         ChangeHp(_currentHp - damage);
+        if(_currentHp <= 0)
+        {
+            Destroy(_enemySystem);
+        }
     }
 }
